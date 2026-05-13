@@ -319,7 +319,7 @@ const StudySchedule = () => {
           </div>
           <div className="stat-content">
             <span className="stat-label">Total Sessions</span>
-            <span className="stat-value">{sessions.length}</span>
+            <span className="stat-value">{stats?.totalSessions ?? sessions.length}</span>
           </div>
         </div>
         <div className="stat-card">
@@ -328,7 +328,7 @@ const StudySchedule = () => {
           </div>
           <div className="stat-content">
             <span className="stat-label">Study Hours</span>
-            <span className="stat-value">{totalStudyHours.toFixed(1)}h</span>
+            <span className="stat-value">{(stats?.totalHours ?? totalStudyHours).toFixed(1)}h</span>
           </div>
         </div>
         <div className="stat-card">
@@ -337,7 +337,7 @@ const StudySchedule = () => {
           </div>
           <div className="stat-content">
             <span className="stat-label">Upcoming</span>
-            <span className="stat-value">{upcomingSessions.length}</span>
+            <span className="stat-value">{stats?.upcomingSessions ?? upcomingSessions.length}</span>
           </div>
         </div>
         <div className="stat-card">
@@ -346,7 +346,7 @@ const StudySchedule = () => {
           </div>
           <div className="stat-content">
             <span className="stat-label">Today's Sessions</span>
-            <span className="stat-value">{todaysSessions.length}</span>
+            <span className="stat-value">{stats?.todaysSessions ?? todaysSessions.length}</span>
           </div>
         </div>
       </div>

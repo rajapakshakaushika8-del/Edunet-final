@@ -424,22 +424,26 @@ const VideoConference = forwardRef(({ socket, roomId, currentUser, participants 
 
   // Initialize media on component mount
   useEffect(() => {
+    const localVideo = localVideoRef.current;
+    const localStream = localStreamRef.current;
+    const peers = peersRef.current;
+    const audioContext = audioContextRef.current;
+
     isMountedRef.current = true;
     initializeMedia();
     
     return () => {
       isMountedRef.current = false;
       // Clean up on unmount
-      if (localStreamRef.current) {
-        localStreamRef.current.getTracks().forEach(track => track.stop());
+      if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
       }
-      if (localVideoRef.current) {
-        localVideoRef.current.srcObject = null;
+      if (localVideo) {
+        localVideo.srcObject = null;
       }
-      Object.values(peersRef.current).forEach(peer => peer.destroy());
-      if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
-        audioContextRef.current.close();
-        audioContextRef.current = null;
+      Object.values(peers).forEach(peer => peer.destroy());
+      if (audioContext && audioContext.state !== 'closed') {
+        audioContext.close();
       }
     };
   }, [initializeMedia]);

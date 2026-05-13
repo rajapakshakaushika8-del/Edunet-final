@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { userAPI } from '../../services/api';
 import { X, Save, User, Mail, GraduationCap, Calendar, Award } from 'lucide-react';
 import './ProfileEdit.css';

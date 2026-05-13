@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { userAPI } from '../../services/api';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
-import { Book, Users, FileText, TrendingUp, Clock, Award, BookOpen, Settings, Plus, Edit } from 'lucide-react';
+import { Book, Users, FileText, TrendingUp, Clock, Award, BookOpen, Plus, Edit } from 'lucide-react';
 import ProfileEdit from './ProfileEdit';
 import SubjectManager from './SubjectManager';
 import RecommendationsWidget from './RecommendationsWidget';

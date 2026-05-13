@@ -15,7 +15,6 @@ import {
   User,
   X
 } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { resourceAPI, userAPI } from '../../services/api';
 import './Resources.css';
@@ -39,7 +38,6 @@ const Resources = () => {
     type: 'notes',
     tags: ''
   });
-  const { user } = useAuth();
 
   const [userSubjects, setUserSubjects] = useState([]);
   const resourceTypes = ['All', 'notes', 'past-paper', 'presentation', 'video', 'other'];

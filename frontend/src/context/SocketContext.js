@@ -41,6 +41,40 @@ export const SocketProvider = ({ children }) => {
     }
   }, [token]);
 
+  const addNotification = useCallback((notification) => {
+    const id = Date.now().toString();
+    const newNotification = { ...notification, id };
+    
+    setNotifications(prev => [newNotification, ...prev.slice(0, 49)]); // Keep max 50 notifications
+    
+    // Auto-remove notification after 5 seconds for info/success, 10 seconds for warnings, keep errors
+    if (notification.type !== 'error') {
+      const timeout = notification.type === 'warning' ? 10000 : 5000;
+      setTimeout(() => {
+        setNotifications(prev => prev.filter(n => n.id !== id));
+      }, timeout);
+    }
+  }, []);
+
+  const removeNotification = useCallback(async (notificationId) => {
+    // Mark as read in DB if it has an ID from database
+    if (notificationId.length > 15 && token) { // Heuristic for MongoId
+      try {
+        await fetch(`${API_BASE_URL}/notifications/${notificationId}/read`, {
+          method: 'PATCH',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+      } catch (err) {
+        console.error('Error marking as read:', err);
+      }
+    }
+    setNotifications(prev => prev.filter(n => n.id !== notificationId && n._id !== notificationId));
+  }, [token]);
+
+  const clearNotifications = useCallback(() => {
+    setNotifications([]);
+  }, []);
+
   const initializeSocket = useCallback(() => {
     console.log('Initializing socket with user:', user, 'token exists:', !!token);
     
@@ -248,7 +282,7 @@ export const SocketProvider = ({ children }) => {
     setSocket(newSocket);
 
     return newSocket;
-  }, [user, token, currentRoom]);
+  }, [user, token, currentRoom, addNotification]);
 
   // Clean up socket connection
   const disconnectSocket = useCallback(() => {
@@ -369,41 +403,6 @@ export const SocketProvider = ({ children }) => {
     }
   }, [socket, connected]);
 
-  // Notification management
-  const addNotification = useCallback((notification) => {
-    const id = Date.now().toString();
-    const newNotification = { ...notification, id };
-    
-    setNotifications(prev => [newNotification, ...prev.slice(0, 49)]); // Keep max 50 notifications
-    
-    // Auto-remove notification after 5 seconds for info/success, 10 seconds for warnings, keep errors
-    if (notification.type !== 'error') {
-      const timeout = notification.type === 'warning' ? 10000 : 5000;
-      setTimeout(() => {
-        setNotifications(prev => prev.filter(n => n.id !== id));
-      }, timeout);
-    }
-  }, []);
-
-  const removeNotification = useCallback(async (notificationId) => {
-    // Mark as read in DB if it has an ID from database
-    if (notificationId.length > 15 && token) { // Heuristic for MongoId
-      try {
-        await fetch(`${API_BASE_URL}/notifications/${notificationId}/read`, {
-          method: 'PATCH',
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-      } catch (err) {
-        console.error('Error marking as read:', err);
-      }
-    }
-    setNotifications(prev => prev.filter(n => n.id !== notificationId && n._id !== notificationId));
-  }, [token]);
-
-  const clearNotifications = useCallback(() => {
-    setNotifications([]);
-  }, []);
-
   // Initialize socket when user is authenticated
   useEffect(() => {
     console.log('Socket useEffect triggered - user:', !!user, 'token:', !!token);
@@ -416,7 +415,7 @@ export const SocketProvider = ({ children }) => {
       console.log('No user/token - disconnecting socket');
       disconnectSocket();
     }
-  }, [user, token, socket]);
+  }, [user, token, socket, initializeSocket, fetchNotifications, disconnectSocket]);
 
   // Clean up on unmount
   useEffect(() => {
