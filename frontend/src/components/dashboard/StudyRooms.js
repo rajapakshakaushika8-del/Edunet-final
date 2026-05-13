@@ -6,6 +6,8 @@ import { userAPI } from '../../services/api';
 import LoadingSpinner from '../common/LoadingSpinner';
 import './StudyRooms.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+
 const StudyRooms = () => {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -39,7 +41,7 @@ const StudyRooms = () => {
         const token = localStorage.getItem('token');
 
         // Fetch study rooms
-        const roomsResponse = await fetch('http://localhost:5000/api/study-rooms', {
+        const roomsResponse = await fetch(`${API_BASE_URL}/study-rooms`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -79,7 +81,7 @@ const StudyRooms = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/study-rooms', {
+      const response = await fetch(`${API_BASE_URL}/study-rooms`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -120,7 +122,7 @@ const StudyRooms = () => {
     try {
       const token = localStorage.getItem('token');
 
-      const response = await fetch(`http://localhost:5000/api/study-rooms/${selectedRoom._id}`, {
+      const response = await fetch(`${API_BASE_URL}/study-rooms/${selectedRoom._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -161,7 +163,7 @@ const StudyRooms = () => {
     try {
       const token = localStorage.getItem('token');
 
-      const response = await fetch(`http://localhost:5000/api/study-rooms/${selectedRoom._id}`, {
+      const response = await fetch(`${API_BASE_URL}/study-rooms/${selectedRoom._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

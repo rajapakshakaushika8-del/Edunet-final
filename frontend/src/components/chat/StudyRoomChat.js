@@ -3,6 +3,8 @@ import { Send, Mic, MicOff, Video, VideoOff, Phone, PhoneOff, Share, Users, Pape
 import { useSocket } from '../../context/SocketContext';
 import './StudyRoomChat.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+
 const StudyRoomChat = ({ socket, roomId, currentUser, participants }) => {
   const { messages: contextMessages } = useSocket();
   const [newMessage, setNewMessage] = useState('');
@@ -83,7 +85,7 @@ const StudyRoomChat = ({ socket, roomId, currentUser, participants }) => {
     const formData = new FormData();
     formData.append('file', file);
     try {
-      const resp = await fetch('/api/chat/upload', { method: 'POST', body: formData });
+      const resp = await fetch(`${API_BASE_URL}/chat/upload`, { method: 'POST', body: formData });
       if (!resp.ok) throw new Error('Upload failed');
       const data = await resp.json();
       socket.emit('send-message', { roomId, message: data.url, type: data.type, fileName: data.filename });

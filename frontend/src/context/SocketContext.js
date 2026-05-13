@@ -2,6 +2,10 @@ import React, { createContext, useContext, useEffect, useState, useCallback } fr
 import { io } from 'socket.io-client';
 import { useAuth } from './AuthContext';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_ROOT = API_BASE_URL.replace(/\/api$/, '');
+const SOCKET_SERVER_URL = process.env.REACT_APP_SERVER_URL || API_ROOT;
+
 const SocketContext = createContext();
 
 export const useSocket = () => {
@@ -25,7 +29,7 @@ export const SocketProvider = ({ children }) => {
   const fetchNotifications = useCallback(async () => {
     if (!token) return;
     try {
-      const resp = await fetch('http://localhost:5000/api/notifications', {
+      const resp = await fetch(`${API_BASE_URL}/notifications`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (resp.ok) {
@@ -45,7 +49,7 @@ export const SocketProvider = ({ children }) => {
       return null;
     }
 
-    const socketUrl = process.env.REACT_APP_SERVER_URL || 'http://localhost:5000';
+    const socketUrl = SOCKET_SERVER_URL;
     console.log('Connecting to socket server:', socketUrl);
     
     const newSocket = io(socketUrl, {
@@ -385,7 +389,7 @@ export const SocketProvider = ({ children }) => {
     // Mark as read in DB if it has an ID from database
     if (notificationId.length > 15 && token) { // Heuristic for MongoId
       try {
-        await fetch(`http://localhost:5000/api/notifications/${notificationId}/read`, {
+        await fetch(`${API_BASE_URL}/notifications/${notificationId}/read`, {
           method: 'PATCH',
           headers: { 'Authorization': `Bearer ${token}` }
         });

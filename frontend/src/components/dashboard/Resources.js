@@ -20,6 +20,9 @@ import LoadingSpinner from '../common/LoadingSpinner';
 import { resourceAPI, userAPI } from '../../services/api';
 import './Resources.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_ROOT = API_BASE_URL.replace(/\/api$/, '');
+
 const Resources = () => {
   const [resources, setResources] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -124,7 +127,7 @@ const Resources = () => {
     if (resource.file && resource.file.url) {
       // Construction URL prefix if needed, but backend sends /uploads/... 
       // which needs full base URL
-      window.open(`http://localhost:5000${resource.file.url}`, '_blank');
+      window.open(`${API_ROOT}${resource.file.url}`, '_blank');
     } else {
       alert('Preview is only available for uploaded files.');
     }
@@ -133,7 +136,7 @@ const Resources = () => {
   const handleDownload = (resource) => {
     if (resource.file) {
       // Direct the browser to the backend download endpoint
-      window.open(`http://localhost:5000/api/resources/${resource._id}/download`, '_blank');
+      window.open(`${API_BASE_URL}/resources/${resource._id}/download`, '_blank');
     } else {
       alert('No file attached to this resource.');
     }

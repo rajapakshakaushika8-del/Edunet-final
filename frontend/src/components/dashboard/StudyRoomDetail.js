@@ -21,6 +21,8 @@ import InteractiveWhiteboard from '../whiteboard/InteractiveWhiteboard';
 import LoadingSpinner from '../common/LoadingSpinner';
 import './StudyRoomDetail.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+
 const StudyRoomDetail = () => {
   const { roomId } = useParams();
   const navigate = useNavigate();
@@ -71,7 +73,7 @@ const StudyRoomDetail = () => {
         if (!token) {
           throw new Error('401: No authentication token found');
         }
-        const response = await fetch(`http://localhost:5000/api/study-rooms/${roomId}`, {
+        const response = await fetch(`${API_BASE_URL}/study-rooms/${roomId}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
