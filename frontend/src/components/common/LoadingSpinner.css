@@ -1,0 +1,38 @@
+/* Modern Loading Spinner */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  gap: 16px;
+}
+
+.spinner-icon {
+  color: var(--accent-green);
+  animation: spin 1s linear infinite;
+}
+
+.spinner-text {
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Inline spinner for buttons */
+.loading-spinner.inline {
+  padding: 0;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.loading-spinner.inline .spinner-text {
+  font-size: inherit;
+  color: inherit;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

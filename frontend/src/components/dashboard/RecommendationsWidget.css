@@ -1,0 +1,113 @@
+.recommendations-widget {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 32px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.recommendations-widget .section-header {
+  margin-bottom: 24px;
+}
+
+.recommendations-widget .section-header h2 {
+  font-size: 20px;
+  color: var(--text-primary);
+}
+
+.recommendations-widget .section-header p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.rec-grid {
+  display: flex;
+  gap: 24px;
+}
+
+.rec-column {
+  flex: 1;
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+.rec-column h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-primary);
+  font-size: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.rec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rec-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  transition: all 0.2s;
+  color: inherit;
+  border: 1px solid transparent;
+}
+
+.rec-item:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent-blue);
+  transform: translateY(-2px);
+}
+
+.rec-item-info h4 {
+  font-size: 14px;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.rec-item-info span {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.arrow {
+  color: var(--accent-blue);
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  color: var(--accent-blue);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.btn-icon:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.no-rec-text {
+  color: var(--text-secondary);
+  font-size: 14px;
+  text-align: center;
+  padding: 24px 0;
+}
+
+@media (max-width: 768px) {
+  .rec-grid {
+    flex-direction: column;
+  }
+}

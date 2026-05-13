@@ -1,0 +1,461 @@
+/* Video Conference Styles */
+.video-conference {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  position: relative;
+}
+
+.video-conference.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  border-radius: 0;
+  border: none;
+}
+
+/* Control Bar */
+.video-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.status-indicator.disconnected {
+  background: #dc3545;
+}
+
+.status-indicator.connecting {
+  background: #ffc107;
+}
+
+.status-indicator.connected {
+  background: #28a745;
+}
+
+.status-indicator.ready {
+  background: #17a2b8;
+}
+
+.status-indicator.error {
+  background: #dc3545;
+  animation: none;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  70% {
+    box-shadow: 0 0 0 10px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.participant-count {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--accent-green);
+  font-weight: 600;
+}
+
+.control-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.control-btn:hover:not(:disabled) {
+  background: var(--bg-primary);
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+  transform: translateY(-1px);
+}
+
+.control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.control-btn.active {
+  background: var(--accent-green);
+  color: white;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.control-btn.muted {
+  background: var(--accent-green);
+  color: white;
+}
+
+.control-btn.join-call {
+  background: var(--accent-green);
+  color: white;
+  padding: 10px 16px;
+  font-weight: 600;
+}
+
+.control-btn.join-call:hover:not(:disabled) {
+  background: #059669;
+}
+
+.control-btn.leave-call {
+  background: var(--accent-green);
+  color: white;
+  padding: 10px 16px;
+  font-weight: 600;
+}
+
+.control-btn.leave-call:hover {
+  background: #059669;
+}
+
+/* Video Grid */
+.video-grid {
+  flex: 1;
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-auto-rows: minmax(280px, 450px);
+  overflow-y: auto;
+}
+
+.video-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.video-grid::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 3px;
+}
+
+.video-grid::-webkit-scrollbar-thumb {
+  background: var(--accent-green);
+  border-radius: 3px;
+}
+
+/* Single video takes full space */
+.video-grid:has(.video-container:only-child) {
+  grid-template-columns: 1fr;
+  grid-auto-rows: minmax(400px, 1fr);
+}
+
+/* Two videos side by side */
+.video-grid:has(.video-container:nth-child(2):last-child) {
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: minmax(350px, 500px);
+}
+
+/* Video Container */
+.video-container {
+  position: relative;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid var(--border-light);
+  transition: all 0.3s ease;
+}
+
+.video-container:hover {
+  border-color: var(--accent-green);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
+}
+
+.video-container.local-video {
+  border-color: var(--accent-green);
+}
+
+.video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+/* Video Overlay */
+.video-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.participant-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.participant-name {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.media-status {
+  display: flex;
+  gap: 4px;
+}
+
+.media-status svg {
+  color: #dc3545;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+}
+
+/* Audio Level Indicator */
+.audio-level {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 30px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.audio-level-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #28a745, #ffc107, #dc3545);
+  border-radius: 2px;
+  transition: width 0.1s ease;
+}
+
+/* Empty State */
+.video-empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  text-align: center;
+  gap: 16px;
+  padding: 40px;
+}
+
+.video-empty-state svg {
+  color: var(--accent-green);
+}
+
+.video-empty-state h3 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 24px;
+}
+
+.video-empty-state p {
+  margin: 0;
+  font-size: 16px;
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .video-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-auto-rows: minmax(180px, 250px);
+  }
+}
+
+@media (max-width: 768px) {
+  .video-controls {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .control-group {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .control-btn {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  
+  .video-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: minmax(200px, 300px);
+    padding: 8px;
+  }
+  
+  .video-container {
+    border-radius: 8px;
+  }
+  
+  .participant-name {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-controls {
+    padding: 8px;
+  }
+  
+  .control-btn {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+  
+  .control-btn.join-call,
+  .control-btn.leave-call {
+    padding: 8px 12px;
+  }
+  
+  .video-grid {
+    padding: 4px;
+    gap: 4px;
+  }
+  
+  .video-overlay {
+    padding: 8px;
+  }
+}
+
+/* Fullscreen Styles */
+.video-conference.fullscreen .video-grid {
+  padding: 20px;
+  gap: 12px;
+}
+
+.video-conference.fullscreen .video-controls {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+/* Loading States */
+.video-container.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+}
+
+.video-container.loading::after {
+  content: '';
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-light);
+  border-top: 3px solid var(--accent-green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Accessibility */
+.control-btn:focus {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
+}
+
+.video-container:focus {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .video-container {
+    border-width: 3px;
+  }
+  
+  .control-btn {
+    border: 1px solid var(--text-light);
+  }
+  
+  .video-overlay {
+    background: rgba(0, 0, 0, 0.9);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .video-container,
+  .control-btn,
+  .status-indicator {
+    transition: none;
+    animation: none;
+  }
+  
+  .video-container:hover {
+    transform: none;
+  }
+  
+  .control-btn:hover:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* Dark theme specific enhancements */
+@media (prefers-color-scheme: dark) {
+  .video-conference {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .video-empty-state {
+    background: rgba(139, 69, 19, 0.05);
+    border-radius: 12px;
+  }
+}
