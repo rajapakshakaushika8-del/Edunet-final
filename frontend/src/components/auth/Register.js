@@ -42,7 +42,13 @@ const Register = () => {
       await register(formData);
       navigate('/dashboard');
     } catch (error) {
-      setError(error.response?.data?.message || 'Registration failed. Please try again.');
+      const backendErrors = error.response?.data?.errors;
+      const backendMessage = error.response?.data?.message;
+      if (backendErrors?.length > 0) {
+        setError(backendErrors[0].message);
+      } else {
+        setError(backendMessage || 'Registration failed. Please try again.');
+      }
     } finally {
       setLoading(false);
     }

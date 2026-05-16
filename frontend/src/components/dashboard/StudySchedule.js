@@ -281,6 +281,7 @@ const StudySchedule = () => {
   };
 
   const todaysSessions = getTodaysSessions();
+  const studyHours = Number(stats?.totalHours ?? totalStudyHours);
 
   return (
     <div className="study-schedule">
@@ -519,7 +520,7 @@ const StudySchedule = () => {
                   </div>
 
                   <div className="session-notes">
-                    {session.notes && !activeSessionId === session._id && (
+                    {session.notes && activeSessionId !== session._id && (
                       <p className="notes-text">{session.notes}</p>
                     )}
                   </div>

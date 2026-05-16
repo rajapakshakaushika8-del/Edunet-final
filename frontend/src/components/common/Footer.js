@@ -20,8 +20,8 @@ const Footer = () => {
           </div>
           <div className="footer-section">
             <h4>Contact</h4>
-            <p>Email: [EMAIL_ADDRESS]</p>
-            <p>Phone: [PHONE_NUMBER]</p>
+            <p>Email: info@edunet.lk</p>
+            <p>Phone: 011 2345 678</p>
           </div>
         </div>
         <div className="footer-bottom">

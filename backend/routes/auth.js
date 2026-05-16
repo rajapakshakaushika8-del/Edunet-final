@@ -24,16 +24,7 @@ const registerValidation = [
   body('email')
     .isEmail()
     .normalizeEmail()
-    .withMessage('Please provide a valid email')
-    .custom((value) => {
-      const allowedDomains = ['ac.lk', 'edu.lk', 'edu', 'uni.lk', 'university.lk'];
-      const domain = value.split('@')[1];
-      const isAllowed = allowedDomains.some(d => domain.endsWith(d));
-      if (!isAllowed) {
-        throw new Error('Please register with a valid university email address (.ac.lk, .edu, etc.)');
-      }
-      return true;
-    }),
+    .withMessage('Please provide a valid email'),
   body('password')
     .isLength({ min: 6 })
     .withMessage('Password must be at least 6 characters long'),

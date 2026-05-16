@@ -166,7 +166,7 @@ export const getSessionStats = async (req, res) => {
 
     const totalSessions = sessions.length;
     const totalMinutes = sessions.reduce((acc, session) => acc + (session.duration || 0), 0);
-    const totalHours = (totalMinutes / 60).toFixed(1);
+    const totalHours = parseFloat((totalMinutes / 60).toFixed(1));
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
